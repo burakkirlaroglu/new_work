@@ -8,7 +8,12 @@ class PostSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Post
-        fields = ("title", "content", "created_date", "active_post_count", "user_name")
+        fields = (
+            "title",
+            "content",
+            "created_date",
+            "active_post_count",
+            "user_name")
 
     def get_active_post_count(self, obj):
         """Sum of Posts that is_active field True"""
