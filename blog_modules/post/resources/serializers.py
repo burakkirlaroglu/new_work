@@ -13,7 +13,9 @@ class PostSerializer(serializers.ModelSerializer):
             "content",
             "created_date",
             "active_post_count",
-            "user_name")
+            "user_name",
+            "slug",
+            "media",)
 
     def get_active_post_count(self, obj):
         """Sum of Posts that is_active field True"""

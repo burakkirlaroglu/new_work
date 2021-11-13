@@ -130,5 +130,5 @@ dmypy.json
 
 
 .idea
-blog/__pycache__/
-blog_modules/__pycache__/
+blog/__pycache__
+blog_modules/__pycache__
