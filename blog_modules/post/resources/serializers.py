@@ -12,7 +12,9 @@ class PostSerializer(serializers.ModelSerializer):
             "title",
             "content",
             "created_date",
+            "is_active",
             "active_post_count",
+            "modified_by",
             "user_name",
             "slug",
             "media",)
@@ -36,3 +38,14 @@ class PostSerializer(serializers.ModelSerializer):
 #         """Sum of Posts that is_active field True"""
 #         qs = Post.objects.all().filter(is_active=True).count()
 #         return qs
+
+
+class PostCreateUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Post
+        fields = (
+            "user",
+            "title",
+            "content",
+            "media",
+            "is_active")
