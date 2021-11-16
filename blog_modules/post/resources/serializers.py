@@ -17,7 +17,8 @@ class PostSerializer(serializers.ModelSerializer):
             "modified_by",
             "user_name",
             "slug",
-            "media",)
+            "media",
+            "updated_date")
 
     def get_active_post_count(self, obj):
         """Sum of Posts that is_active field True"""
@@ -26,6 +27,7 @@ class PostSerializer(serializers.ModelSerializer):
 
     def get_user_name(self, obj):
         return obj.user.username
+
 
 # class PostSerializer(serializers.Serializer):
 #     title = serializers.CharField(max_length=120)
@@ -44,8 +46,19 @@ class PostCreateUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = (
-            "user",
             "title",
             "content",
             "media",
             "is_active")
+
+    def validate_title(self, obj):
+        if obj == "fenerbahçe":
+            raise serializers.ValidationError("title değeri fenerbahçe olamaz")
+        return obj
+
+    def validate(self, attrs):
+        content = attrs['content']
+        if content == "fb":
+            raise serializers.ValidationError(
+                '{} değeri olamaz'.format(content))
+        return attrs
