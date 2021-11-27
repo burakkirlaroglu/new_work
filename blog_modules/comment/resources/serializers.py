@@ -21,3 +21,13 @@ class CommentSerializer(serializers.ModelSerializer):
         return obj.user.username
 
 
+class CommandChildSerializer(serializers.ModelSerializer):
+    child = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Comment
+        fields = '__all__'
+
+    def get_child(self, obj):
+        if obj.any_children:
+            return CommandChildSerializer(obj.children(), many=True).data

@@ -1,8 +1,10 @@
-from rest_framework.generics import CreateAPIView, ListAPIView
+from rest_framework.generics import CreateAPIView, ListAPIView, DestroyAPIView, \
+ RetrieveUpdateAPIView
 
 from blog_modules.base.permissions import IsOwner
 from blog_modules.comment.models import Comment
-from blog_modules.comment.resources.serializers import CommentSerializer
+from blog_modules.comment.resources.serializers import CommentSerializer, \
+    CommandChildSerializer
 
 
 class CommentApiViews(CreateAPIView):
@@ -15,5 +17,20 @@ class CommentApiViews(CreateAPIView):
 
 
 class CommentListApiView(ListAPIView):
+    # queryset = Comment.objects.all()
+    serializer_class = CommandChildSerializer
+
+    def get_queryset(self):
+        return Comment.objects.filter(parent=None)
+
+
+class CommentDestroyApiView(DestroyAPIView):
     queryset = Comment.objects.all()
-    serializer_class = CommentSerializer
+    serializer_class = CommandChildSerializer
+    permission_classes = [IsOwner]
+
+
+class CommentUpdateApiView(RetrieveUpdateAPIView):
+    queryset = Comment.objects.all()
+    serializer_class = CommandChildSerializer
+    permission_classes = [IsOwner]
