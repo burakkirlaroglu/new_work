@@ -5,6 +5,10 @@ from blog_modules.post.models import Post
 class PostSerializer(serializers.ModelSerializer):
     active_post_count = serializers.SerializerMethodField()
     user_name = serializers.SerializerMethodField()
+    url = serializers.HyperlinkedIdentityField(
+        view_name='post:detail',
+        lookup_field='slug'
+    )
 
     class Meta:
         model = Post
@@ -18,7 +22,8 @@ class PostSerializer(serializers.ModelSerializer):
             "user_name",
             "slug",
             "media",
-            "updated_date")
+            "updated_date",
+            "url",)
 
     def get_active_post_count(self, obj):
         """Sum of Posts that is_active field True"""

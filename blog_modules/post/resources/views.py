@@ -2,7 +2,9 @@ from rest_framework.generics import (ListAPIView, RetrieveAPIView,
                                      DestroyAPIView, UpdateAPIView,
                                      CreateAPIView, RetrieveUpdateAPIView)
 from rest_framework.permissions import (IsAuthenticated, IsAdminUser)
+from rest_framework.filters import SearchFilter, OrderingFilter
 from blog_modules.post.models import Post
+from blog_modules.post.pagination import PostPagination
 from blog_modules.post.resources.serializers import PostSerializer, \
     PostCreateUpdateSerializer
 from blog_modules.base.permissions import IsOwner
@@ -11,10 +13,16 @@ from blog_modules.base.permissions import IsOwner
 class PostListViews(ListAPIView):
     #
     # def get_queryset(self):
-    #     qs_post = Post.objects.all().filter(is_active=True)
+    #     qs_post = Post.objects.filter(is_active=True)
     #     return qs_post
     queryset = Post.objects.all()
     serializer_class = PostSerializer
+    """Filtreleme için kullanılır, filter tipleri mevcuttur. Uygun olan seçip
+    kullanılabilir."""
+    filter_backends = [SearchFilter, OrderingFilter]
+    search_fields = ['title']
+
+    pagination_class = PostPagination
 
 
 class PostDetailApiView(RetrieveAPIView):

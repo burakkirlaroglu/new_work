@@ -9,7 +9,7 @@ class Post(StartModel):
     title = models.CharField(max_length=120)
     content = models.TextField()
     slug = models.SlugField(unique=True, editable=False)
-    media = models.ImageField(upload_to="media/posts/", null=True, blank=True)
+    media = models.ImageField(upload_to="posts", null=True, blank=True)
     modified_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True
                                     , related_name="modified_by")
 
