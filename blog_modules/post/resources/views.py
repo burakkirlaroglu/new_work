@@ -25,6 +25,7 @@ class PostListViews(ListAPIView, CreateModelMixin):
     search_fields = ['title']
 
     pagination_class = PostPagination
+    permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)
@@ -62,7 +63,7 @@ class PostUpdateApiView(RetrieveUpdateAPIView):
     queryset = Post.objects.all()
     serializer_class = PostCreateUpdateSerializer
     lookup_field = "pk"
-    permission_classes = [IsOwner]
+    permission_classes = [IsOwner, IsAuthenticated]
 
     def perform_update(self, serializer):
         serializer.save(modified_by=self.request.user)

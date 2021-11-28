@@ -1,3 +1,5 @@
 from django.contrib import admin
 
-# Register your models here.
+from blog_modules.account.models import Account
+
+admin.site.register(Account)
