@@ -6,8 +6,8 @@ class PostSerializer(serializers.ModelSerializer):
     active_post_count = serializers.SerializerMethodField()
     user_name = serializers.SerializerMethodField()
     url = serializers.HyperlinkedIdentityField(
-        view_name='post:detail',
-        lookup_field='slug'
+        view_name='blog:post-detail',
+        lookup_field='pk'
     )
 
     class Meta:

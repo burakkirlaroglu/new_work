@@ -5,8 +5,8 @@ from blog_modules.post.resources.views import PostListViews, PostDetailApiView, 
 
 urlpatterns = [
     path('post/', PostListViews.as_view(), name='post-list'),
-    path('post/<slug>/', PostDetailApiView.as_view(), name='post-detail'),
-    path('post/update/<slug>/', PostUpdateApiView.as_view(), name='post-update'),
-    path('post/delete/<slug>/', PostDeleteApiView.as_view(), name='post-delete'),
+    path('post/<pk>/', PostDetailApiView.as_view(), name='post-detail'),
+    path('post/update/<pk>/', PostUpdateApiView.as_view(), name='post-update'),
+    path('post/delete/<pk>/', PostDeleteApiView.as_view(), name='post-delete'),
     path('create/', PostCreateApiView.as_view(), name='post-create')
 ]

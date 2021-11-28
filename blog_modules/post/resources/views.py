@@ -36,15 +36,15 @@ class PostListViews(ListAPIView, CreateModelMixin):
 class PostDetailApiView(RetrieveAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
-    lookup_field = "slug"
-    permission_classes = [IsOwner]
+    lookup_field = "pk"
+    permission_classes = [IsOwner, IsAuthenticated]
 
 
 class PostDeleteApiView(DestroyAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
-    lookup_field = "slug"
-    permission_classes = [IsOwner]
+    lookup_field = "pk"
+    permission_classes = [IsOwner, IsAuthenticated]
 
 
 # class PostUpdateApiView(UpdateAPIView):
@@ -61,7 +61,7 @@ class PostUpdateApiView(RetrieveUpdateAPIView):
     sadece UpdateAPIView kullanırsan gözükmez"""
     queryset = Post.objects.all()
     serializer_class = PostCreateUpdateSerializer
-    lookup_field = "slug"
+    lookup_field = "pk"
     permission_classes = [IsOwner]
 
     def perform_update(self, serializer):
