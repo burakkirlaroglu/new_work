@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'blog_modules.post',
     'blog_modules.base',
     'blog_modules.comment',
+    'blog_modules.favourite',
 ]
 
 MIDDLEWARE = [

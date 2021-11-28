@@ -7,8 +7,10 @@ from blog_modules.comment.resources.views import (CommentApiViews,
                                                   CommentUpdateApiView)
 
 urlpatterns = [
-    path('comment/', CommentApiViews.as_view()),
-    path('comment/all/', CommentListApiView.as_view()),
-    #path('comment/delete/<pk>/', CommentDestroyApiView.as_view()),
-    path('comment/update/<pk>/', CommentUpdateApiView.as_view()),
+    path('comment/', CommentApiViews.as_view(), name='comment-create'),
+    path('comment/all/', CommentListApiView.as_view(),
+         name='comment-list-all'),
+    # path('comment/delete/<pk>/', CommentDestroyApiView.as_view()),
+    path('comment/update/<pk>/', CommentUpdateApiView.as_view(),
+         name='comment-update'),
 ]
