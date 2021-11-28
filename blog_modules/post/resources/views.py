@@ -1,6 +1,8 @@
 from rest_framework.generics import (ListAPIView, RetrieveAPIView,
                                      DestroyAPIView, UpdateAPIView,
                                      CreateAPIView, RetrieveUpdateAPIView)
+
+from rest_framework.mixins import CreateModelMixin, ListModelMixin
 from rest_framework.permissions import (IsAuthenticated, IsAdminUser)
 from rest_framework.filters import SearchFilter, OrderingFilter
 from blog_modules.post.models import Post
@@ -10,7 +12,7 @@ from blog_modules.post.resources.serializers import PostSerializer, \
 from blog_modules.base.permissions import IsOwner
 
 
-class PostListViews(ListAPIView):
+class PostListViews(ListAPIView, CreateModelMixin):
     #
     # def get_queryset(self):
     #     qs_post = Post.objects.filter(is_active=True)
@@ -23,6 +25,12 @@ class PostListViews(ListAPIView):
     search_fields = ['title']
 
     pagination_class = PostPagination
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
 
 
 class PostDetailApiView(RetrieveAPIView):
@@ -60,10 +68,15 @@ class PostUpdateApiView(RetrieveUpdateAPIView):
         serializer.save(modified_by=self.request.user)
 
 
-class PostCreateApiView(CreateAPIView):
+class PostCreateApiView(CreateAPIView, ListModelMixin):
     queryset = Post.objects.all()
     serializer_class = PostCreateUpdateSerializer
     permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+

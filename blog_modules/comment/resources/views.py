@@ -1,5 +1,8 @@
 from rest_framework.generics import CreateAPIView, ListAPIView, DestroyAPIView, \
- RetrieveUpdateAPIView
+    RetrieveUpdateAPIView
+
+from rest_framework.mixins import UpdateModelMixin, RetrieveModelMixin, \
+    DestroyModelMixin
 
 from blog_modules.base.permissions import IsOwner
 from blog_modules.comment.models import Comment
@@ -36,6 +39,16 @@ class CommentListApiView(ListAPIView):
         return queryset
 
 
+# class CommentDestroyApiView(DestroyAPIView, UpdateModelMixin, RetrieveModelMixin):
+#     queryset = Comment.objects.all()
+#     serializer_class = CommandChildSerializer
+#     permission_classes = [IsOwner]
+#
+#     def put(self, request, *args, **kwargs):
+#         return self.update(request, *args, **kwargs)
+#
+#     def get(self, request, *args, **kwargs):
+#         return self.retrieve(request, *args, **kwargs)
 
 
 class CommentDestroyApiView(DestroyAPIView):
@@ -44,7 +57,10 @@ class CommentDestroyApiView(DestroyAPIView):
     permission_classes = [IsOwner]
 
 
-class CommentUpdateApiView(RetrieveUpdateAPIView):
+class CommentUpdateApiView(RetrieveUpdateAPIView, DestroyModelMixin):
     queryset = Comment.objects.all()
     serializer_class = CommandChildSerializer
     permission_classes = [IsOwner]
+
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
