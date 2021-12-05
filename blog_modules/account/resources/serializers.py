@@ -1,17 +1,18 @@
-from rest_framework.serializers import ModelSerializer
+from rest_framework import serializers
 
-from blog_modules.account.models import Account
+from blog_modules.account.models import Profile
 from django.contrib.auth.models import User
+from django.contrib.auth.password_validation import validate_password
 
 
-class AccountSerializer(ModelSerializer):
+class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Account
+        model = Profile
         fields = ('id', 'note', 'twitter')
 
 
-class UserSerializer(ModelSerializer):
-    profile = AccountSerializer()
+class UserSerializer(serializers.ModelSerializer):
+    profile = ProfileSerializer()
 
     class Meta:
         model = User
@@ -19,8 +20,17 @@ class UserSerializer(ModelSerializer):
 
     def update(self, instance, validated_data):
         profile = validated_data.pop('profile')
-        account_serializer = AccountSerializer(instance=instance.profile,
+        profile_serializer = ProfileSerializer(instance=instance.profile,
                                                data=profile)
-        account_serializer.is_valid(raise_exception=True)
-        account_serializer.save()
+        profile_serializer.is_valid(raise_exception=True)
+        profile_serializer.save()
         return super(UserSerializer, self).update(instance, validated_data)
+
+
+class ChangePasswordSerializer(serializers.Serializer):
+    old_password = serializers.CharField(required=True)
+    new_password = serializers.CharField(required=True)
+
+    def validate_new_password(self, value):
+        validate_password(value)
+        return value
