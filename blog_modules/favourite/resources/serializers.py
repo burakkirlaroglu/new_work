@@ -3,7 +3,7 @@ from rest_framework import serializers
 from blog_modules.favourite.models import Favourite
 
 
-class FavouriteSerializer(ModelSerializer):
+class FavouriteListCreateSerializer(ModelSerializer):
     class Meta:
         model = Favourite
         fields = '__all__'
@@ -16,7 +16,7 @@ class FavouriteSerializer(ModelSerializer):
         return attrs
 
 
-class FavouriteOtherSerializer(ModelSerializer):
+class FavouriteAPISerializer(ModelSerializer):
     class Meta:
         model = Favourite
         fields = ('content',)

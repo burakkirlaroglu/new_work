@@ -6,12 +6,10 @@ from django.contrib.auth.models import User
 from blog_modules.post.models import Post
 
 
-class CommentSerializer(serializers.ModelSerializer):
-    username = serializers.SerializerMethodField()
-
+class CommentCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
-        exclude = ('updated_date', 'is_active')
+        exclude = ('created',)
 
     def validate(self, attrs):
         if attrs['parent']:
@@ -20,24 +18,21 @@ class CommentSerializer(serializers.ModelSerializer):
 
         return attrs
 
-    def get_username(self, obj):
-        return obj.user.username
-
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        exclude = ('password',)
+        fields = "__all__"
 
 
 class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
-        fields = '__all__'
+        fields = "__all__"
 
 
-class CommandChildSerializer(serializers.ModelSerializer):
-    child = serializers.SerializerMethodField()
+class CommandListSerializer(serializers.ModelSerializer):
+    replies = serializers.SerializerMethodField()
     user = UserSerializer()
     post = PostSerializer()
 
@@ -46,6 +41,12 @@ class CommandChildSerializer(serializers.ModelSerializer):
         fields = '__all__'
         # depth = 1 # foreign key'in pk değeri yerine sahip olduğu tüm değerleri gösterir
 
-    def get_child(self, obj):
+    def get_replies(self, obj):
         if obj.any_children:
-            return CommandChildSerializer(obj.children(), many=True).data
+            return CommandListSerializer(obj.children(), many=True).data
+
+
+class CommandDeleteUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        fields = ('content',)

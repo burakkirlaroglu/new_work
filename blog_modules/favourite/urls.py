@@ -1,12 +1,10 @@
-from django.urls import include
 from django.urls import path
-from rest_framework.routers import DefaultRouter
-from blog_modules.favourite.resources.views import (FavouriteAPIView,
-                                                    FavouriteOtherAPIView)
-
+from blog_modules.favourite.resources.views import (FavouriteListCreateAPIView,
+                                                    FavouriteAPIView)
+app_name='favourite'
 urlpatterns = [
-    path('favourite/', FavouriteAPIView.as_view(),
-         name='favourite-create-list'),
-    path('favourite/<pk>/', FavouriteOtherAPIView.as_view(),
-         name='favourite-retrieve-delete')
+    path('list-create', FavouriteListCreateAPIView.as_view(),
+         name='create-list'),
+    path('update-delete/<pk>', FavouriteAPIView.as_view(),
+         name='delete-update')
 ]

@@ -3,7 +3,7 @@ from blog_modules.post.models import Post
 
 
 class PostAdmin(admin.ModelAdmin):
-    list_display = ('title', 'created_date', 'updated_date', 'is_active')
+    list_display = ('title', 'created')
 
 
 admin.site.register(Post, PostAdmin)

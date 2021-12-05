@@ -39,25 +39,10 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_extensions',
     'blog_modules.post',
-    'blog_modules.base',
     'blog_modules.comment',
     'blog_modules.favourite',
     'blog_modules.account',
 ]
-
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ],
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticatedOrReadOnly'
-    ],
-}
-"""15 dk token geçerli demektir"""
-
-SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60)
-}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

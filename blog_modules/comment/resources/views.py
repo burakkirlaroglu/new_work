@@ -4,16 +4,16 @@ from rest_framework.generics import CreateAPIView, ListAPIView, DestroyAPIView, 
 from rest_framework.mixins import UpdateModelMixin, RetrieveModelMixin, \
     DestroyModelMixin
 
-from blog_modules.base.permissions import IsOwner
+from blog_modules.comment.resources.permissions import IsOwner
 from blog_modules.comment.models import Comment
 from blog_modules.comment.pagination import CommentPagination
-from blog_modules.comment.resources.serializers import CommentSerializer, \
-    CommandChildSerializer
+from blog_modules.comment.resources.serializers import CommentCreateSerializer, \
+    CommandListSerializer, CommandDeleteUpdateSerializer
 
 
-class CommentApiViews(CreateAPIView):
+class CommentCreateApiViews(CreateAPIView):
     queryset = Comment.objects.all()
-    serializer_class = CommentSerializer
+    serializer_class = CommentCreateSerializer
     permission_classes = [IsOwner]
 
     def perform_create(self, serializer):
@@ -21,12 +21,8 @@ class CommentApiViews(CreateAPIView):
 
 
 class CommentListApiView(ListAPIView):
-    # queryset = Comment.objects.all()
-    serializer_class = CommandChildSerializer
+    serializer_class = CommandListSerializer
     pagination_class = CommentPagination
-
-    # def get_queryset(self):
-    #     return Comment.objects.filter(parent=None)
 
     def get_queryset(self):
         """atılan istek çinde q var mı ?
@@ -39,9 +35,9 @@ class CommentListApiView(ListAPIView):
         return queryset
 
 
-# class CommentDestroyApiView(DestroyAPIView, UpdateModelMixin, RetrieveModelMixin):
+# class CommentDeleteApiView(DestroyAPIView, UpdateModelMixin, RetrieveModelMixin):
 #     queryset = Comment.objects.all()
-#     serializer_class = CommandChildSerializer
+#     serializer_class = CommandDeleteUpdateSerializer
 #     permission_classes = [IsOwner]
 #
 #     def put(self, request, *args, **kwargs):
@@ -50,17 +46,16 @@ class CommentListApiView(ListAPIView):
 #     def get(self, request, *args, **kwargs):
 #         return self.retrieve(request, *args, **kwargs)
 
-
-class CommentDestroyApiView(DestroyAPIView):
-    queryset = Comment.objects.all()
-    serializer_class = CommandChildSerializer
-    permission_classes = [IsOwner]
+# class CommentDeleteApiView(DestroyAPIView):
+#     queryset = Comment.objects.all()
+#     serializer_class = CommandDeleteUpdateSerializer
+#     permission_classes = [IsOwner]
 
 
 class CommentUpdateApiView(RetrieveUpdateAPIView, DestroyModelMixin):
     queryset = Comment.objects.all()
-    serializer_class = CommandChildSerializer
+    serializer_class = CommandDeleteUpdateSerializer
     permission_classes = [IsOwner]
 
-    def delete(self, request, *args, **kwargs):
-        return self.destroy(request, *args, **kwargs)
+    def delete(self, request, *args, **kwars):
+        return self.destroy(request, *args, **kwars)

@@ -1,13 +1,14 @@
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.generics import ListCreateAPIView, \
+    RetrieveUpdateDestroyAPIView
 from blog_modules.favourite.models import Favourite
 from blog_modules.favourite.pagination import FavPagination
-from blog_modules.favourite.resources.serializers import FavouriteSerializer, \
-    FavouriteOtherSerializer
+from blog_modules.favourite.resources.serializers import \
+    FavouriteListCreateSerializer, FavouriteAPISerializer
+from blog_modules.favourite.resources.permissions import IsOwner
 
 
-class FavouriteAPIView(ListCreateAPIView):
-    #queryset = Favourite.objects.all()
-    serializer_class = FavouriteSerializer
+class FavouriteListCreateAPIView(ListCreateAPIView):
+    serializer_class = FavouriteListCreateSerializer
     pagination_class = FavPagination
 
     def get_queryset(self):
@@ -17,8 +18,8 @@ class FavouriteAPIView(ListCreateAPIView):
         serializer.save(user=self.request.user)
 
 
-class FavouriteOtherAPIView(RetrieveUpdateDestroyAPIView):
+class FavouriteAPIView(RetrieveUpdateDestroyAPIView):
     queryset = Favourite.objects.all()
-    serializer_class = FavouriteOtherSerializer
+    serializer_class = FavouriteAPISerializer
     pagination_class = FavPagination
-
+    permission_classes = [IsOwner]

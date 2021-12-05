@@ -1,12 +1,12 @@
-from django.urls import include
 from django.urls import path
-from rest_framework.routers import DefaultRouter
-from blog_modules.post.resources.views import PostListViews, PostDetailApiView, PostDeleteApiView, PostUpdateApiView, PostCreateApiView
+from blog_modules.post.resources.views import PostListViews, PostDetailApiView, \
+    PostUpdateApiView, PostCreateApiView
 
+app_name = 'post'
 urlpatterns = [
-    path('post/', PostListViews.as_view(), name='post-list'),
-    path('post/<pk>/', PostDetailApiView.as_view(), name='post-detail'),
-    path('post/update/<pk>/', PostUpdateApiView.as_view(), name='post-update'),
-    path('post/delete/<pk>/', PostDeleteApiView.as_view(), name='post-delete'),
-    path('create/', PostCreateApiView.as_view(), name='post-create')
+    path('list', PostListViews.as_view(), name='list'),
+    path('detail/<pk>', PostDetailApiView.as_view(), name='detail'),
+    # path('delete/<pk>', PostDeleteApiView.as_view(), name='delete'),
+    path('update/<pk>', PostUpdateApiView.as_view(), name='update'),
+    path('create', PostCreateApiView.as_view(), name='create'),
 ]
