@@ -28,8 +28,6 @@ share/python-wheels/
 MANIFEST
 
 media
-blog_modules/__pycache__
-blog/__pycache__
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
