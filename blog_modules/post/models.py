@@ -21,6 +21,10 @@ class Post(models.Model):
     gözükmez false değeri true yapılırsa ki default değeri true dur o zaman
     o fieldlar görünür olur ve değiştirilebilir"""
 
+
+    class Meta:
+        ordering = ('-id',)
+
     def get_slug(self):
         slug = slugify(self.title.replace("ı", "i"))
         new_slug = slug

@@ -60,4 +60,4 @@ class CreateUserView(CreateAPIView):
     queryset = User.objects.all()
     serializer_class = RegisterSerializer
     permission_classes = [NotAuthenticated]
-    throttle_classes = [RegisterThtottle]
+    # throttle_classes = [RegisterThtottle]
