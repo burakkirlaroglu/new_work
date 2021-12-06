@@ -10,6 +10,7 @@ from django.contrib.auth import update_session_auth_hash
 from blog_modules.account.resources.permissions import NotAuthenticated
 from blog_modules.account.resources.serializers import UserSerializer, \
     ChangePasswordSerializer, RegisterSerializer
+from blog_modules.account.throttles import RegisterThtottle
 
 
 class ProfileView(RetrieveUpdateAPIView):
@@ -59,3 +60,4 @@ class CreateUserView(CreateAPIView):
     queryset = User.objects.all()
     serializer_class = RegisterSerializer
     permission_classes = [NotAuthenticated]
+    throttle_classes = [RegisterThtottle]

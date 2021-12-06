@@ -37,6 +37,7 @@ class PostListViews(ListAPIView):
     filter_backends = [SearchFilter, OrderingFilter]
     search_fields = ['title']
     pagination_class = PostPagination
+    throttle_scope = 'deneme'
 
     def get_queryset(self):
         return Post.objects.filter(draft=False)
