@@ -15,7 +15,6 @@ class CommentCreateSerializer(serializers.ModelSerializer):
         if attrs['parent']:
             if attrs['parent'].post != attrs['post']:
                 raise serializers.ValidationError('something went wrong')
-
         return attrs
 
 
